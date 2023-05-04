@@ -1,29 +1,36 @@
 /*------------------------------------------------------------------------------------
 
- [Module]: ADC - Global and static variables - Functions definitions
+ [Module]: EXTERNAL_INTERRUPT - Global and static variables - Functions definitions
 
- [File Name]: adc.c
+ [File Name]: ext_interrupt.c
 
  [Author]: Ebraheem Ali
 
- [Data Created]: May 23, 2022
+ [Data Created]: May 1, 2022
 
- [Description]: This File contains definitions of ADC and global ,static variables.
+ [Description]: This File contains definitions of EXTERNAL_INTERRUPT and global ,static variables.
 
  ------------------------------------------------------------------------------------*/
 #include "../../MCAL/EXT_INTERRUPT/ex_interrupt.h"
 #include "../../HELPERS/comman_macros.h"
 #include <avr/io.h>
 
+const ExtInt_ConfigType ExtIntConfigObj = 
+{
+	{FALLING_EDGE,EXT_INTERRUPT_0,reset_button},
+	{RISING_EDGE,EXT_INTERRUPT_1,pause_button},
+	{FALLING_EDGE,EXT_INTERRUPT_2,resume_button}
+};
+
 static volatile void(*g_EX_INT0_CallBack_Ptr)(void) = NULL_PTR;
 static volatile void(*g_EX_INT1_CallBack_Ptr)(void) = NULL_PTR;
 static volatile void(*g_EX_INT2_CallBack_Ptr)(void) = NULL_PTR;
 
-static void EX_INTERRUPT0_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr);
-static void EX_INTERRUPT1_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr);
-static void EX_INTERRUPT2_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr);
+static void ExtInt0_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr);
+static void ExtInt1_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr);
+static void ExtInt2_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr);
 
-static void EX_INTERRUPT0_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
+static void ExtInt0_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
 {
 	/* set the callbak function address of INT0 to the global pointer to function called in its ISR */
 	g_EX_INT0_CallBack_Ptr = InterruptConfig_Ptr->callBack_Ptr;
@@ -31,12 +38,6 @@ static void EX_INTERRUPT0_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
 	SET_BIT(GICR,EX_INTERRUPT0_PIN);
 	switch(InterruptConfig_Ptr->trigger_type)
 	{
-	case LOW_LEVEL:
-		CLEAR_BIT(MCUCR,ISC00);
-		CLEAR_BIT(MCUCR,ISC01); break;
-	case ANY_LOGIC_CHANGE:
-		CLEAR_BIT(MCUCR,ISC01);
-		SET_BIT(MCUCR,ISC00); break;
 	case FALLING_EDGE:
 		CLEAR_BIT(MCUCR,ISC00);
 		SET_BIT(MCUCR,ISC01); break;
@@ -46,7 +47,7 @@ static void EX_INTERRUPT0_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
 	}
 }
 
-static void EX_INTERRUPT1_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
+static void ExtInt1_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
 {
 	/* set the callbak function address of INT1 to the global pointer to function called in its ISR */
 	g_EX_INT1_CallBack_Ptr = InterruptConfig_Ptr->callBack_Ptr;
@@ -54,12 +55,6 @@ static void EX_INTERRUPT1_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
 	SET_BIT(GICR,EX_INTERRUPT1_PIN);
 	switch(InterruptConfig_Ptr->trigger_type)
 	{
-	case LOW_LEVEL:
-		CLEAR_BIT(MCUCR,ISC00);
-		CLEAR_BIT(MCUCR,ISC01); break;
-	case ANY_LOGIC_CHANGE:
-		CLEAR_BIT(MCUCR,ISC01);
-		SET_BIT(MCUCR,ISC00); break;
 	case FALLING_EDGE:
 		CLEAR_BIT(MCUCR,ISC00);
 		SET_BIT(MCUCR,ISC01); break;
@@ -69,7 +64,7 @@ static void EX_INTERRUPT1_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
 	}
 }
 
-static void EX_INTERRUPT2_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
+static void ExtInt2_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
 {
 	/* set the callbak function address of INT0 to the global pointer to function called in its ISR */
 	g_EX_INT2_CallBack_Ptr = InterruptConfig_Ptr->callBack_Ptr;
@@ -86,26 +81,31 @@ static void EX_INTERRUPT2_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
 	}
 }
 
-void EX_INTERRUPT_config(EX_INTERRUPT_Config_t* InterruptConfig_Ptr)
+void ExtInt_init(const ExtInt_ConfigType * InterruptConfig_Ptr)
 {
-	/* Implement the function if only number of interrupt between 0-2 and number of trigger type 0-3 */
-	if(InterruptConfig_Ptr->source_type <= 2 && InterruptConfig_Ptr->trigger_type <= 3)
+	uint8 i;
+	for(i=0; i<NUM_OF_EXT_INT;++i)
 	{
-		switch(InterruptConfig_Ptr->source_type)
+		/* Implement the function if only number of interrupt between 0-2 and number of trigger type 0-3 */
+		if(InterruptConfig_Ptr->ExtIntArray[i].source_type <= 2 && InterruptConfig_Ptr->ExtIntArray[i].trigger_type <= 3)
 		{
-		case EXT_INTERRUPT_0:
-			EX_INTERRUPT0_init(InterruptConfig_Ptr);
-			break;
-		case EXT_INTERRUPT_1:
-			EX_INTERRUPT1_init(InterruptConfig_Ptr);
-			break;
-		case EXT_INTERRUPT_2:
-			EX_INTERRUPT2_init(InterruptConfig_Ptr);
-			break;
+			switch(InterruptConfig_Ptr->ExtIntArray[i].source_type)
+			{
+			case EXT_INTERRUPT_0:
+				ExtInt0_init(InterruptConfig_Ptr->ExtIntArray[i]);
+				break;
+			case EXT_INTERRUPT_1:
+				ExtInt1_init(InterruptConfig_Ptr->ExtIntArray[i]);
+				break;
+			case EXT_INTERRUPT_2:
+				ExtInt2_init(InterruptConfig_Ptr->ExtIntArray[i]);
+				break;
+			}
 		}
 	}
 }
-void EX_INTERRUPT_enable(EX_INTERRUPT_sourceType_t a_interruptNum)
+
+void ExtInt_enable(ExtInt_sourceType_t a_interruptNum)
 {
 	switch(a_interruptNum)
 	{
@@ -122,7 +122,7 @@ void EX_INTERRUPT_enable(EX_INTERRUPT_sourceType_t a_interruptNum)
 	SET_BIT(SREG,I_BIT); /* Enable global interrupts */
 }
 
-void EX_INTERRUPT_disable(EX_INTERRUPT_sourceType_t a_interruptNum)
+void ExtInt_disable(ExtInt_sourceType_t a_interruptNum)
 {
 	switch(a_interruptNum)
 	{
@@ -138,19 +138,24 @@ void EX_INTERRUPT_disable(EX_INTERRUPT_sourceType_t a_interruptNum)
 	}
 }
 
+/************************************************************************************
+						ExtInt ISPs Functions
+*************************************************************************************/
+/* INTERRUPT OF RESET_SWITCH */
 ISR(INT0_vect)
 {
-	SET_BIT(SREG,I_BIT);
 	if(g_EX_INT0_CallBack_Ptr != NULL_PTR)
 		(*g_EX_INT0_CallBack_Ptr)();
 }
 
+/* INTERRUPT OF PAUSE_SWITCH */
 ISR(INT1_vect)
 {
 	if(g_EX_INT0_CallBack_Ptr != NULL_PTR)
 		(*g_EX_INT1_CallBack_Ptr)();
 }
 
+/* INTERRUPT OF RESUME_SWITCH */
 ISR(INT2_vect)
 {
 	if(g_EX_INT0_CallBack_Ptr != NULL_PTR)
