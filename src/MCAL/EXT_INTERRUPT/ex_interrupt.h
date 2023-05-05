@@ -25,6 +25,9 @@
 #define EX_INTERRUPT2_PORT	DDRB
 #define EX_INTERRUPT2_PIN	INT2
 
+#define EXT_INT_ENABLE	1
+#define EXT_INT_DISABLE 0
+
 #define NUM_OF_EXT_INT	3
 
 #define I_BIT (7)
@@ -45,7 +48,8 @@ typedef enum
  Type: Enumeration
  Description: Hold the interrupt source type.
  --------------------------------------------------------------------------------------------------*/
-typedef enum{
+typedef enum
+{
 	EXT_INTERRUPT_0,
 	EXT_INTERRUPT_1,
 	EXT_INTERRUPT_2
@@ -58,8 +62,9 @@ typedef enum{
  --------------------------------------------------------------------------------------------------*/
 typedef struct
 {
-	EX_INTERRUPT_TriggerType_t trigger_type;
-	EX_INTERRUPT_sourceType_t source_type;
+	ExtInt_TriggerType_t trigger_type;
+	ExtInt_sourceType_t source_type;
+	uint8 ExtInt_privilage;
 }ExtInt_ConfigParam_t;
 
 /*-------------------------------------------------------------------------------------------------
@@ -88,7 +93,7 @@ extern const ExtInt_ConfigType ExtIntConfigObj;
  Return : void
  Description: Function to configure ExT_INTERRUPT module.
  --------------------------------------------------------------------------------------------------*/
-void ExtInt_init(EX_INTERRUPT_Config_t* InterruptConfig_Ptr);
+void ExtInt_init(const ExtInt_ConfigType * InterruptConfig_Ptr);
 /*-------------------------------------------------------------------------------------------------
  Function Name: ExtInt_enable
  Function prototype: void ExtInt_enable(ExtInt_sourceType_t a_interruptNum)
@@ -98,7 +103,7 @@ void ExtInt_init(EX_INTERRUPT_Config_t* InterruptConfig_Ptr);
  Return : void
  Description: Function to enable a spacfic external interrupt
  --------------------------------------------------------------------------------------------------*/
-void ExtInt_enable(EX_INTERRUPT_sourceType_t a_interruptNum);
+void ExtInt_enable(ExtInt_sourceType_t a_interruptNum);
 /*-------------------------------------------------------------------------------------------------
  Function Name: ExtInt_disable
  Function prototype: void ExtInt_disable(EX_INTERRUPT_sourceType_t a_interruptNum)
@@ -108,7 +113,7 @@ void ExtInt_enable(EX_INTERRUPT_sourceType_t a_interruptNum);
  Return : void
  Description: Function to disable a spacfic external interrupt
  --------------------------------------------------------------------------------------------------*/
-void ExtInt_disable(EX_INTERRUPT_sourceType_t a_interruptNum);
+void ExtInt_disable(ExtInt_sourceType_t a_interruptNum);
 
 /************************************************************************************
 				ExtInt Call Back Functions

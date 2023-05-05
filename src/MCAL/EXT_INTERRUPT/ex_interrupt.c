@@ -27,9 +27,9 @@
  --------------------------------------------------------------------------------------------------*/
 const ExtInt_ConfigType ExtIntConfigObj = 
 {{
-	{FALLING_EDGE, EXT_INTERRUPT_0},
-	{RISING_EDGE, EXT_INTERRUPT_1},
-	{FALLING_EDGE, EXT_INTERRUPT_2}
+	{FALLING_EDGE, EXT_INTERRUPT_0, EXT_INT_ENABLE},
+	{RISING_EDGE, EXT_INTERRUPT_1, EXT_INT_ENABLE},
+	{FALLING_EDGE, EXT_INTERRUPT_2, EXT_INT_ENABLE}
 }};
 
 /*********************************************************************************
@@ -51,17 +51,25 @@ static void ExtInt2_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr);
  ********************************************************************************/
 /*-------------------------------------------------------------------------------------------------
  Function Name: ExtInt0_init
- Function prototype: static void ExtInt0_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
+ Function prototype: static void ExtInt0_init(ExtInt_ConfigParam_t *InterruptConfig_Ptr)
  Parameters[in]: [InterruptConfig_Ptr]-> Pointer to sturcture containing the INT0 configurations.
  Parameters[out]: None
  Parameters[in/out]: None
  Return : void
  Description: Function to configure INT0.
  --------------------------------------------------------------------------------------------------*/
-static void ExtInt0_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
+static void ExtInt0_init(ExtInt_ConfigParam_t *InterruptConfig_Ptr)
 {
-	/* enable the INT0 interrupt */
-	SET_BIT(GICR,EX_INTERRUPT0_PIN);
+	/* enable/disable the INT0 interrupt */
+	if(InterruptConfig_Ptr->ExtInt_privilage == EXT_INT_ENABLE)
+	{
+		SET_BIT(GICR,EX_INTERRUPT0_PIN);
+	}
+	else
+	{
+		CLEAR_BIT(GICR,EX_INTERRUPT0_PIN);
+	}
+
 	switch(InterruptConfig_Ptr->trigger_type)
 	{
 	case FALLING_EDGE:
@@ -74,17 +82,24 @@ static void ExtInt0_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
 }
 /*-------------------------------------------------------------------------------------------------
  Function Name: ExtInt0_init
- Function prototype: static void ExtInt0_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
+ Function prototype: static void ExtInt0_init(ExtInt_ConfigParam_t *InterruptConfig_Ptr)
  Parameters[in]: [InterruptConfig_Ptr]-> Pointer to sturcture containing the INT0 configurations.
  Parameters[out]: None
  Parameters[in/out]: None
  Return : void
  Description: Function to configure INT0.
  --------------------------------------------------------------------------------------------------*/
-static void ExtInt1_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
+static void ExtInt1_init(ExtInt_ConfigParam_t *InterruptConfig_Ptr)
 {
-	/* enable the INT0 interrupt */
-	SET_BIT(GICR,EX_INTERRUPT1_PIN);
+		/* enable/disable the INT0 interrupt */
+	if(InterruptConfig_Ptr->ExtInt_privilage == EXT_INT_ENABLE)
+	{
+		SET_BIT(GICR,EX_INTERRUPT1_PIN);
+	}
+	else
+	{
+		CLEAR_BIT(GICR,EX_INTERRUPT1_PIN);
+	}
 	switch(InterruptConfig_Ptr->trigger_type)
 	{
 	case FALLING_EDGE:
@@ -97,17 +112,24 @@ static void ExtInt1_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
 }
 /*-------------------------------------------------------------------------------------------------
  Function Name: ExtInt0_init
- Function prototype: static void ExtInt0_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
+ Function prototype: static void ExtInt0_init(ExtInt_ConfigParam_t *InterruptConfig_Ptr)
  Parameters[in]: [InterruptConfig_Ptr]-> Pointer to sturcture containing the INT0 configurations.
  Parameters[out]: None
  Parameters[in/out]: None
  Return : void
  Description: Function to configure INT0.
  --------------------------------------------------------------------------------------------------*/
-static void ExtInt2_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
+static void ExtInt2_init(ExtInt_ConfigParam_t *InterruptConfig_Ptr)
 {
-	/* enable the INT0 interrupt */
-	SET_BIT(GICR,EX_INTERRUPT2_PIN);
+	/* enable/disable the INT0 interrupt */
+	if(InterruptConfig_Ptr->ExtInt_privilage == EXT_INT_ENABLE)
+	{
+		SET_BIT(GICR,EX_INTERRUPT2_PIN);
+	}
+	else
+	{
+		CLEAR_BIT(GICR,EX_INTERRUPT2_PIN);
+	}
 	switch(InterruptConfig_Ptr->trigger_type)
 	{
 	case FALLING_EDGE:

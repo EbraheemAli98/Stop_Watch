@@ -9,66 +9,41 @@ File Name : StopWatch_app.c
 	Created on: May 1, 2022
  ---------------------------------------------------------------------------------------------------------------
  */
-#include "STOP_WATCH_MODULE/StopWatch.h"
+#include "StopWatch.h"
+#include "../MCAL/TIMER/timer.h"
+#include "../HAL/BUTTON/button.h"
+#include "../MCAL/EXT_INTERRUPT/ex_interrupt.h"
+#include "../HAL/SEVEN_SEGMENT/seven_segment.h"
 
-unsigned char one_sec_flag = 0;
-button_state_t state = DISPLAY;
 
-int main(void)
+void StopWatch_init(void)
 {
-	SET_LOW_NIBBLES(SEVEN_SEGMENT_DIR_REG,0x0F); /*SET BITS PC0-PC3 AS OUTPUT DISPLAY OF SEVEN_SEGMENT DECODER */
-	SET_MASK_PORT(SEVEN_SEGMENT_DIR_DISPLAY_REG,0x3F); /* SET PA0-PA5 AS OUTPUT DISPLAY OF SEVEN_SEGMENT */
-	INT0_reset_switch_init();
-	INT1_pause_switch_init();
-	INT2_resume_switch_init();
-	TIMER1_init();
-	SET_BIT(SREG,7); /* ENABLE GLOBAL INTERRUPT */
-
-	while(1)
-	{
-		if(one_sec_flag == 1)  /* If one second is coming */
-		{
-			one_sec_flag = 0;
-			SevenSegment_check();
-		}
-		SevenSegment_display();
-		switch(state)  /* check if which interrupt occurs and implement its function */
-		{
-		default:
-			break;
-		case RESET:
-			Reset();
-			state = DISPLAY;
-			break;
-		case PAUSE:
-			Pause();
-			state = DISPLAY;
-			break;
-		case RESUME:
-			Resume();
-			state = DISPLAY;
-			break;
-		}
-	}
-}
-/* INTERRUPT OF RESET_SWITCH */
-ISR(INT0_vect)
-{
-	state = RESET;
-}
-/* INTERRUPT OF PAUSE_SWITCH */
-ISR(INT1_vect)
-{
-	state = PAUSE;
-}
-/* INTERRUPT OF RESUME_SWITCH */
-ISR(INT2_vect)
-{
-	state = RESUME;
+	Timer1_init();
+	Timer1_setCallBack(SevenSegment_check);
+	ExtInt_init(&ExtIntConfigObj);
+	ExtInt_setCallBackInt0(StopWatch_reset);
+	ExtInt_setCallBackInt1(StopWatch_pause);
+	ExtInt_setCallBackInt2(StopWatch_resume);
+	Button_init();
+	SevenSegment_init();
+	Timer1_InterruptEnable();
+	ExtInt_enable(EXT_INTERRUPT_0);
+	ExtInt_enable(EXT_INTERRUPT_1);
+	ExtInt_enable(EXT_INTERRUPT_2);
 }
 
-ISR(TIMER1_COMPA_vect)
+void StopWatch_reset(void)
 {
-	one_sec_flag = 1; /* one _sec_flag is set every one second */
 
-}/*END ISR */
+}
+
+void StopWatch_pause(void)
+{
+
+}
+
+void StopWatch_resume(void)
+{
+
+}
+
