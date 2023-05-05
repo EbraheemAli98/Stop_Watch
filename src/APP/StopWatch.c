@@ -27,23 +27,31 @@ void StopWatch_init(void)
 	Button_init();
 	SevenSegment_init();
 	Timer1_InterruptEnable();
-	ExtInt_enable(EXT_INTERRUPT_0);
-	ExtInt_enable(EXT_INTERRUPT_1);
-	ExtInt_enable(EXT_INTERRUPT_2);
+}
+
+void StopWatch_start(void)
+{
+	SevenSegment_display();
 }
 
 void StopWatch_reset(void)
 {
-
+	Timer1_reset();
+	sec1_counter = 0;
+	sec2_counter = 0;
+	min1_counter = 0;
+	min2_counter = 0;
+	hour1_counter = 0;
+	hour2_counter = 0;
 }
 
 void StopWatch_pause(void)
 {
-
+	Timer1_stop();
 }
 
 void StopWatch_resume(void)
 {
-
+	Timer1_start();
 }
 

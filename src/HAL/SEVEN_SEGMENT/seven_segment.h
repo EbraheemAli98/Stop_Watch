@@ -18,6 +18,14 @@
 #define SEVEN_SEGMENT_DATA_DISPLAY_REG PORTA  /* PORTA contains the pins that controls the display of the segments */
 #define SEVEN_SEGMENT_DIR_DISPLAY_REG  DDRA
 
+
+extern volatile uint8 sec1_counter=0;	/* count the number of seconds displayed on the 1st segment in the left*/
+extern volatile uint8 sec2_counter=0;	/* count the number of seconds displayed on the 2nd segment */
+extern volatile uint8 min1_counter=0;	/* count the number of minites displayed on the 3rd segment */
+extern volatile uint8 min2_counter=0;  /* count the number of minites displayed on the 4th segment */
+extern volatile uint8 hour1_counter=0; /* count the number of hours displayed on the 5th segment */
+extern volatile uint8 hour2_counter=0; /* count the number of hours displayed on the last segment in the right */
+
 /*********************************************************************************
  *                  Functions' Prototypes
  ********************************************************************************/

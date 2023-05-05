@@ -56,6 +56,32 @@
     TCCR1B = TIMER1_STOP;
  }
  /*-------------------------------------------------------------------------------------------------
+ Function Name: Timer1_stop
+ Function prototype:  void Timer1_stop(void)
+ Parameters[in]: None
+ Parameters[out]: None
+ Parameters[in/out]: None
+ Return : void
+ Description: Function to stop Timer1 from counting.
+ --------------------------------------------------------------------------------------------------*/
+ void Timer1_stop(void)
+ {
+   TCCR1B &= (TIMER1_STOP | 0xF8);
+ }
+ /*-------------------------------------------------------------------------------------------------
+ Function Name: Timer1_start
+ Function prototype:  void Timer1_start(void)
+ Parameters[in]: None
+ Parameters[out]: None
+ Parameters[in/out]: None
+ Return : void
+ Description: Function to start Timer1.
+ --------------------------------------------------------------------------------------------------*/
+ void Timer1_start(void)
+ {
+   TCCR1B &= (TIEMR1_1024_PRESCALER | 0xF8);
+ }
+ /*-------------------------------------------------------------------------------------------------
  Function Name: Timer1_InterruptEnable
  Function prototype:  void Timer1_InterruptEnable(void)
  Parameters[in]: None
@@ -82,15 +108,15 @@
     CLEAR_BIT(TIMSK,OCIE1A); /*ENABLE TIMER1 INTERRUPT */
  }
 /*-------------------------------------------------------------------------------------------------
- Function Name: Timer1_Reset
- Function prototype:  void Timer1_Reset(void)
+ Function Name: Timer1_reset
+ Function prototype:  void Timer1_reset(void)
  Parameters[in]: None
  Parameters[out]: None
  Parameters[in/out]: None
  Return : void
  Description: Function to reset Timer1 to start count from zero.
  --------------------------------------------------------------------------------------------------*/
- void Timer1_Reset(void)
+ void Timer1_reset(void)
  {
     TCNT1 = 0;
  }

@@ -15,6 +15,8 @@ File Name : StopWatch.h
 
 void StopWatch_init(void);
 
+void StopWatch_start(void);
+
 void StopWatch_reset(void);
 
 void StopWatch_pause(void);
