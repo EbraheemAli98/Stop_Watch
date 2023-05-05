@@ -131,7 +131,7 @@ static void ExtInt2_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
 void ExtInt_init(const ExtInt_ConfigType * InterruptConfig_Ptr)
 {
 	uint8 IntNum;
-	for(IntNum=0; IntNum<NUM_OF_EXT_INT;++IntNum)
+	for(IntNum=0; IntNum < NUM_OF_EXT_INT; ++IntNum)
 	{
 		/* Implement the function if only number of interrupt between 0-2 and number of trigger type 0-3 */
 		if(InterruptConfig_Ptr->ExtIntArray[IntNum].source_type <= 2 && InterruptConfig_Ptr->ExtIntArray[IntNum].trigger_type <= 3)
