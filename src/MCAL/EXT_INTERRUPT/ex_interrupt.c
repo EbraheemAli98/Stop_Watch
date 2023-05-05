@@ -60,8 +60,6 @@ static void ExtInt2_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr);
  --------------------------------------------------------------------------------------------------*/
 static void ExtInt0_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
 {
-	/* set the callbak function address of INT0 to the global pointer to function called in its ISR */
-	g_EX_INT0_CallBack_Ptr = InterruptConfig_Ptr->callBack_Ptr;
 	/* enable the INT0 interrupt */
 	SET_BIT(GICR,EX_INTERRUPT0_PIN);
 	switch(InterruptConfig_Ptr->trigger_type)
@@ -85,8 +83,6 @@ static void ExtInt0_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
  --------------------------------------------------------------------------------------------------*/
 static void ExtInt1_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
 {
-	/* set the callbak function address of INT1 to the global pointer to function called in its ISR */
-	g_EX_INT1_CallBack_Ptr = InterruptConfig_Ptr->callBack_Ptr;
 	/* enable the INT0 interrupt */
 	SET_BIT(GICR,EX_INTERRUPT1_PIN);
 	switch(InterruptConfig_Ptr->trigger_type)
@@ -110,8 +106,6 @@ static void ExtInt1_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
  --------------------------------------------------------------------------------------------------*/
 static void ExtInt2_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr)
 {
-	/* set the callbak function address of INT0 to the global pointer to function called in its ISR */
-	g_EX_INT2_CallBack_Ptr = InterruptConfig_Ptr->callBack_Ptr;
 	/* enable the INT0 interrupt */
 	SET_BIT(GICR,EX_INTERRUPT2_PIN);
 	switch(InterruptConfig_Ptr->trigger_type)
