@@ -1,6 +1,9 @@
 #ifndef SEVEN_SEGMENT_H_
 #define SEVEN_SEGMENT_H_
 
+/*********************************************************************************
+ *                  MACROS Definitions
+ ********************************************************************************/
 #define SEC1   0x01	/* Left seconds 7-segment */
 #define SEC2   0x02 /* Right seconds 7-segment */
 #define MIN1   0x04	/* Left minutes 7-segment */
@@ -15,7 +18,29 @@
 #define SEVEN_SEGMENT_DATA_DISPLAY_REG PORTA  /* PORTA contains the pins that controls the display of the segments */
 #define SEVEN_SEGMENT_DIR_DISPLAY_REG  DDRA
 
-void SevenSegment_display(void); /* function to display the time on 7-segments using Round-robin technique */
-void SevenSegment_check(void);   /* function computes time and implements an algorithm to control the stop-watch counters */
+/*********************************************************************************
+ *                  Functions' Prototypes
+ ********************************************************************************/
+
+/*-------------------------------------------------------------------------------------------------
+ Function Name: SevenSegment_display
+ Function prototype: void SevenSegment_display(void)
+ Parameters[in]: None
+ Parameters[out]: None
+ Parameters[in/out]: None
+ Return : void
+ Description: Function to display the time on 7-segments using Round-robin technique
+ --------------------------------------------------------------------------------------------------*/
+void SevenSegment_display(void); 
+/*-------------------------------------------------------------------------------------------------
+ Function Name: SevenSegment_check
+ Function prototype: void SevenSegment_check(void)
+ Parameters[in]: None
+ Parameters[out]: None
+ Parameters[in/out]: None
+ Return : void
+ Description: Function computes time and implements an algorithm to control the stop-watch counters
+ --------------------------------------------------------------------------------------------------*/
+void SevenSegment_check(void);  
 
 #endif

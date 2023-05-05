@@ -1,6 +1,7 @@
 #include "../../MCAL/GPIO/gpio.h"
 #include "seven_segment.h"
 #include <avr/io.h>
+#include <util/delay.h>
 
 volatile uint8 sec1_counter=0;	/* count the number of seconds displayed on the 1st segment in the left*/
 volatile uint8 sec2_counter=0;	/* count the number of seconds displayed on the 2nd segment */
@@ -9,6 +10,10 @@ volatile uint8 min2_counter=0;  /* count the number of minites displayed on the 
 volatile uint8 hour1_counter=0; /* count the number of hours displayed on the 5th segment */
 volatile uint8 hour2_counter=0; /* count the number of hours displayed on the last segment in the right */
 
+
+/*********************************************************************************
+ *                  Functions' Definitions
+ ********************************************************************************/
 /*-------------------------------------------------------------------------------------------------
  Function Name: SevenSegment_display
  Function prototype: void SevenSegment_display(void)
@@ -16,7 +21,7 @@ volatile uint8 hour2_counter=0; /* count the number of hours displayed on the la
  Parameters[out]: None
  Parameters[in/out]: None
  Return : void
- Description: Function to display the time on the seven-segment.
+ Description: Function to display the time on 7-segments using Round-robin technique.
  --------------------------------------------------------------------------------------------------*/
 void SevenSegment_display(void)
 {
@@ -47,7 +52,7 @@ void SevenSegment_display(void)
  Parameters[out]: None
  Parameters[in/out]: None
  Return : void
- Description: Function to count and tracking the time.
+ Description: Function computes time and implements an algorithm to control the stop-watch counters
  --------------------------------------------------------------------------------------------------*/
 void SevenSegment_check(void)
 {

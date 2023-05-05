@@ -15,10 +15,10 @@
 #ifndef MCAL_EXT_INTERRUPT_EX_INTERRUPT_H_
 #define MCAL_EXT_INTERRUPT_EX_INTERRUPT_H_
 
-#  define ISR(vector)            \
+/*#define ISR(vector)            \
     void vector (void) __attribute__ ((signal));\
     void vector (void)
-
+*/
 #define EX_INTERRUPT0_PIN	INT0
 #define EX_INTERRUPT1_PIN 	INT1
 
@@ -29,25 +29,44 @@
 
 #define I_BIT (7)
 
+/*-------------------------------------------------------------------------------------------------
+ Name: ExtInt_ConfigType
+ Type: Structure
+ Description: Hold the trigger signal type.
+ --------------------------------------------------------------------------------------------------*/
 typedef enum
 {
 	FALLING_EDGE,
 	RISING_EDGE
 }ExtInt_TriggerType_t;
 
+/*-------------------------------------------------------------------------------------------------
+ Name: ExtInt_sourceType_t
+ Type: Enumeration
+ Description: Hold the interrupt source type.
+ --------------------------------------------------------------------------------------------------*/
 typedef enum{
 	EXT_INTERRUPT_0,
 	EXT_INTERRUPT_1,
 	EXT_INTERRUPT_2
 }ExtInt_sourceType_t;
 
+/*-------------------------------------------------------------------------------------------------
+ Name: ExtInt_ConfigParam_t
+ Type: Structure
+ Description: Hold the run-time configurations of the EXT_INTERRUPT module.
+ --------------------------------------------------------------------------------------------------*/
 typedef struct
 {
 	EX_INTERRUPT_TriggerType_t trigger_type;
 	EX_INTERRUPT_sourceType_t source_type;
-	volatile void (*callBack_Ptr)(void);
 }ExtInt_ConfigParam_t;
 
+/*-------------------------------------------------------------------------------------------------
+ Name: ExtInt_ConfigType
+ Type: Structure
+ Description: Hold the link configurations of the EXT_INTERRUPT module.
+ --------------------------------------------------------------------------------------------------*/
 typedef struct
 {
 	ExtInt_ConfigParam_t ExtIntArray[NUM_OF_EXT_INT];
@@ -55,8 +74,50 @@ typedef struct
 
 extern const ExtInt_ConfigType ExtIntConfigObj;
 
+
+/*********************************************************************************
+ *                  Functions Prototypes
+ ********************************************************************************/
+/*-------------------------------------------------------------------------------------------------
+ Function Name: ExtInt_init
+ Function prototype: void ExtInt_init(const ExtInt_ConfigType * InterruptConfig_Ptr)
+ Parameters[in]: [InterruptConfig_Ptr]-> Pointer to array of sturcture containing the ExT_INTERRUPT
+  Module configurations.
+ Parameters[out]: None
+ Parameters[in/out]: None
+ Return : void
+ Description: Function to configure ExT_INTERRUPT module.
+ --------------------------------------------------------------------------------------------------*/
 void ExtInt_init(EX_INTERRUPT_Config_t* InterruptConfig_Ptr);
+/*-------------------------------------------------------------------------------------------------
+ Function Name: ExtInt_enable
+ Function prototype: void ExtInt_enable(ExtInt_sourceType_t a_interruptNum)
+ Parameters[in]: [a_interruptNum]-> Indicate the interrupt source.
+ Parameters[out]: None
+ Parameters[in/out]: None
+ Return : void
+ Description: Function to enable a spacfic external interrupt
+ --------------------------------------------------------------------------------------------------*/
 void ExtInt_enable(EX_INTERRUPT_sourceType_t a_interruptNum);
+/*-------------------------------------------------------------------------------------------------
+ Function Name: ExtInt_disable
+ Function prototype: void ExtInt_disable(EX_INTERRUPT_sourceType_t a_interruptNum)
+ Parameters[in]: [a_interruptNum]-> Indicate the interrupt source.
+ Parameters[out]: None
+ Parameters[in/out]: None
+ Return : void
+ Description: Function to disable a spacfic external interrupt
+ --------------------------------------------------------------------------------------------------*/
 void ExtInt_disable(EX_INTERRUPT_sourceType_t a_interruptNum);
+
+/************************************************************************************
+				ExtInt Call Back Functions
+*************************************************************************************/
+
+void ExtInt_setCallBackInt0(void (*FuncPtr)(void));
+
+void ExtInt_setCallBackInt1(void (*FuncPtr)(void));
+
+void ExtInt_setCallBackInt2(void (*FuncPtr)(void));
 
 #endif /* MCAL_EXT_INTERRUPT_EX_INTERRUPT_H_ */
