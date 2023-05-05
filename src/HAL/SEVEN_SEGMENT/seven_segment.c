@@ -26,9 +26,9 @@ volatile uint8 hour2_counter=0; /* count the number of hours displayed on the la
 void SevenSegment_init(void)
 {
 	/*SET BITS PC0-PC3 AS OUTPUT DISPLAY OF SEVEN_SEGMENT DECODER */
-	GPIO_PortDirectionType(SEVEN_SEGMENT_DIR_REG,0x0F);	
+	GPIO_setupPortDirection(SEVEN_SEGMENT_DIR_REG,0x0F);
 	/* SET PA0-PA5 AS OUTPUT DISPLAY OF SEVEN_SEGMENT */
-	GPIO_PortDirectionType(SEVEN_SEGMENT_DIR_DISPLAY_REG,0x3F);
+	GPIO_setupPortDirection(SEVEN_SEGMENT_DIR_DISPLAY_REG,0x3F);
 }
 /*-------------------------------------------------------------------------------------------------
  Function Name: SevenSegment_display

@@ -42,9 +42,9 @@ static volatile void(*g_EX_INT2_CallBack_Ptr)(void) = NULL_PTR;
 /*********************************************************************************
  *               Private Functions' Prototypes
  ********************************************************************************/
-static void ExtInt0_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr);
-static void ExtInt1_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr);
-static void ExtInt2_init(EX_INTERRUPT_Config_t *InterruptConfig_Ptr);
+static void ExtInt0_init(ExtInt_ConfigParam_t *InterruptConfig_Ptr);
+static void ExtInt1_init(ExtInt_ConfigParam_t *InterruptConfig_Ptr);
+static void ExtInt2_init(ExtInt_ConfigParam_t *InterruptConfig_Ptr);
 
 /*********************************************************************************
  *                  Functions' Definitions
@@ -161,13 +161,13 @@ void ExtInt_init(const ExtInt_ConfigType * InterruptConfig_Ptr)
 			switch(InterruptConfig_Ptr->ExtIntArray[IntNum].source_type)
 			{
 			case EXT_INTERRUPT_0:
-				ExtInt0_init(InterruptConfig_Ptr->ExtIntArray[IntNum]);
+				ExtInt0_init(&InterruptConfig_Ptr->ExtIntArray[0]);
 				break;
 			case EXT_INTERRUPT_1:
-				ExtInt1_init(InterruptConfig_Ptr->ExtIntArray[IntNum]);
+				ExtInt1_init(&InterruptConfig_Ptr->ExtIntArray[1]);
 				break;
 			case EXT_INTERRUPT_2:
-				ExtInt2_init(InterruptConfig_Ptr->ExtIntArray[IntNum]);
+				ExtInt2_init(&InterruptConfig_Ptr->ExtIntArray[2]);
 				break;
 			}
 		}
