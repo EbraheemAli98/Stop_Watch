@@ -21,7 +21,16 @@
 /*********************************************************************************
  *                  Functions' Prototypes
  ********************************************************************************/
-
+/*-------------------------------------------------------------------------------------------------
+ Function Name: SevenSegment_init
+ Function prototype: void SevenSegment_init(void)
+ Parameters[in]: None
+ Parameters[out]: None
+ Parameters[in/out]: None
+ Return : void
+ Descript)ion: Function to initialize the 7-segment.
+ --------------------------------------------------------------------------------------------------*/
+void SevenSegment_init(void;
 /*-------------------------------------------------------------------------------------------------
  Function Name: SevenSegment_display
  Function prototype: void SevenSegment_display(void)

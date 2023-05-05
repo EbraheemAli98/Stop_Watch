@@ -15,6 +15,22 @@ volatile uint8 hour2_counter=0; /* count the number of hours displayed on the la
  *                  Functions' Definitions
  ********************************************************************************/
 /*-------------------------------------------------------------------------------------------------
+ Function Name: SevenSegment_init
+ Function prototype: void SevenSegment_init(void)
+ Parameters[in]: None
+ Parameters[out]: None
+ Parameters[in/out]: None
+ Return : void
+ Descript)ion: Function to initialize the 7-segment.
+ --------------------------------------------------------------------------------------------------*/
+void SevenSegment_init(void)
+{
+	/*SET BITS PC0-PC3 AS OUTPUT DISPLAY OF SEVEN_SEGMENT DECODER */
+	GPIO_PortDirectionType(SEVEN_SEGMENT_DIR_REG,0x0F);	
+	/* SET PA0-PA5 AS OUTPUT DISPLAY OF SEVEN_SEGMENT */
+	GPIO_PortDirectionType(SEVEN_SEGMENT_DIR_DISPLAY_REG,0x3F);
+}
+/*-------------------------------------------------------------------------------------------------
  Function Name: SevenSegment_display
  Function prototype: void SevenSegment_display(void)
  Parameters[in]: None

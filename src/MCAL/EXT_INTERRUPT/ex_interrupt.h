@@ -30,8 +30,8 @@
 #define I_BIT (7)
 
 /*-------------------------------------------------------------------------------------------------
- Name: ExtInt_ConfigType
- Type: Structure
+ Name: ExtInt_TriggerType_t
+ Type: Enumeration
  Description: Hold the trigger signal type.
  --------------------------------------------------------------------------------------------------*/
 typedef enum
