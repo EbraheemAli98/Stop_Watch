@@ -160,13 +160,13 @@ void ExtInt_init(const ExtInt_ConfigType * InterruptConfig_Ptr)
 			switch(InterruptConfig_Ptr->ExtIntArray[IntNum].source_type)
 			{
 			case EXT_INTERRUPT_0:
-				ExtInt0_init(&InterruptConfig_Ptr->ExtIntArray[0]);
+				ExtInt0_init(&InterruptConfig_Ptr->ExtIntArray[IntNum]);
 				break;
 			case EXT_INTERRUPT_1:
-				ExtInt1_init(&InterruptConfig_Ptr->ExtIntArray[1]);
+				ExtInt1_init(&InterruptConfig_Ptr->ExtIntArray[IntNum]);
 				break;
 			case EXT_INTERRUPT_2:
-				ExtInt2_init(&InterruptConfig_Ptr->ExtIntArray[2]);
+				ExtInt2_init(&InterruptConfig_Ptr->ExtIntArray[IntNum]);
 				break;
 			}
 		}

@@ -26,4 +26,9 @@ File Name : button.h
 
 void Button_init(void);
 
+void Button_reset(void);
+
+void Button_pause(void);
+
+void Button_resume(void);
 #endif
