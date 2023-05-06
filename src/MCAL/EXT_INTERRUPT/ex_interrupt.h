@@ -14,16 +14,15 @@
 
 #ifndef MCAL_EXT_INTERRUPT_EX_INTERRUPT_H_
 #define MCAL_EXT_INTERRUPT_EX_INTERRUPT_H_
+/***************************************************************
+ * 				INCLUDES
+ ***************************************************************/
+#include "../../HELPERS/Std_types.h"
 
-/*#define ISR(vector)            \
-    void vector (void) __attribute__ ((signal));\
-    void vector (void)
-*/
-#define EX_INTERRUPT0_PIN	INT0
-#define EX_INTERRUPT1_PIN 	INT1
-
+/***************************************************************
+ * 				DEFINITIONS
+ ***************************************************************/
 #define EX_INTERRUPT2_PORT	DDRB
-#define EX_INTERRUPT2_PIN	INT2
 
 #define EXT_INT_ENABLE	1
 #define EXT_INT_DISABLE 0

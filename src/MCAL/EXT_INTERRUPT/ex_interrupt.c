@@ -11,14 +11,13 @@
  [Description]: This File contains definitions of EXTERNAL_INTERRUPT and global ,static variables.
 
  ------------------------------------------------------------------------------------*/
-#include "../../HELPERS/Std_types.h"
 #include "../../HELPERS/comman_macro.h"
 #include <avr/interrupt.h>
 #include <avr/io.h>
 #include "ex_interrupt.h"
 
 /*********************************************************************************
- *                  Globale Variables Definition
+ *                  Global Variables Definition
  ********************************************************************************/
 /*-------------------------------------------------------------------------------------------------
  Name: ExtInt_ConfigType
@@ -35,9 +34,9 @@ const ExtInt_ConfigType ExtIntConfigObj =
 /*********************************************************************************
  *               Static Global Variables Declaration
  ********************************************************************************/
-static volatile void (*g_EX_INT0_CallBack_Ptr)(void) = NULL_PTR;
-static volatile void (*g_EX_INT1_CallBack_Ptr)(void) = NULL_PTR;
-static volatile void (*g_EX_INT2_CallBack_Ptr)(void) = NULL_PTR;
+static void (*g_ExtInt0_CallBack_Ptr)(void) = NULL_PTR;
+static void (*g_ExtInt1_CallBack_Ptr)(void) = NULL_PTR;
+static void (*g_ExtInt2_CallBack_Ptr)(void) = NULL_PTR;
 
 /*********************************************************************************
  *               Private Functions' Prototypes
@@ -63,11 +62,11 @@ static void ExtInt0_init(ExtInt_ConfigParam_t *InterruptConfig_Ptr)
 	/* enable/disable the INT0 interrupt */
 	if(InterruptConfig_Ptr->ExtInt_privilage == EXT_INT_ENABLE)
 	{
-		SET_BIT(GICR,EX_INTERRUPT0_PIN);
+		SET_BIT(GICR,INT0);
 	}
 	else
 	{
-		CLEAR_BIT(GICR,EX_INTERRUPT0_PIN);
+		CLEAR_BIT(GICR,INT0);
 	}
 
 	switch(InterruptConfig_Ptr->trigger_type)
@@ -91,23 +90,23 @@ static void ExtInt0_init(ExtInt_ConfigParam_t *InterruptConfig_Ptr)
  --------------------------------------------------------------------------------------------------*/
 static void ExtInt1_init(ExtInt_ConfigParam_t *InterruptConfig_Ptr)
 {
-		/* enable/disable the INT0 interrupt */
+	/* enable/disable the INT1 interrupt */
 	if(InterruptConfig_Ptr->ExtInt_privilage == EXT_INT_ENABLE)
 	{
-		SET_BIT(GICR,EX_INTERRUPT1_PIN);
+		SET_BIT(GICR,INT1);
 	}
 	else
 	{
-		CLEAR_BIT(GICR,EX_INTERRUPT1_PIN);
+		CLEAR_BIT(GICR,INT1);
 	}
 	switch(InterruptConfig_Ptr->trigger_type)
 	{
 	case FALLING_EDGE:
-		CLEAR_BIT(MCUCR,ISC00);
-		SET_BIT(MCUCR,ISC01); break;
+		CLEAR_BIT(MCUCR,ISC10);
+		SET_BIT(MCUCR,ISC11); break;
 	case RISING_EDGE:
-		SET_BIT(MCUCR,ISC00);
-		SET_BIT(MCUCR,ISC01); break;
+		SET_BIT(MCUCR,ISC10);
+		SET_BIT(MCUCR,ISC11); break;
 	}
 }
 /*-------------------------------------------------------------------------------------------------
@@ -121,14 +120,14 @@ static void ExtInt1_init(ExtInt_ConfigParam_t *InterruptConfig_Ptr)
  --------------------------------------------------------------------------------------------------*/
 static void ExtInt2_init(ExtInt_ConfigParam_t *InterruptConfig_Ptr)
 {
-	/* enable/disable the INT0 interrupt */
+	/* enable/disable the INT2 interrupt */
 	if(InterruptConfig_Ptr->ExtInt_privilage == EXT_INT_ENABLE)
 	{
-		SET_BIT(GICR,EX_INTERRUPT2_PIN);
+		SET_BIT(GICR,INT2);
 	}
 	else
 	{
-		CLEAR_BIT(GICR,EX_INTERRUPT2_PIN);
+		CLEAR_BIT(GICR,INT2);
 	}
 	switch(InterruptConfig_Ptr->trigger_type)
 	{
@@ -187,13 +186,13 @@ void ExtInt_enable(ExtInt_sourceType_t a_interruptNum)
 	switch(a_interruptNum)
 	{
 	case EXT_INTERRUPT_0:
-		SET_BIT(GICR,EX_INTERRUPT0_PIN); /* Enable INT0 interrupt */
+		SET_BIT(GICR,INT0); /* Enable INT0 interrupt */
 		break;
 	case EXT_INTERRUPT_1:
-		SET_BIT(GICR,EX_INTERRUPT1_PIN); /* Enable INT1 interrupt */
+		SET_BIT(GICR,INT1); /* Enable INT1 interrupt */
 		break;
 	case EXT_INTERRUPT_2:
-		SET_BIT(GICR,EX_INTERRUPT2_PIN); /* Enable INT2 interrupt */
+		SET_BIT(GICR,INT2); /* Enable INT2 interrupt */
 		break;
 	}
 	SET_BIT(SREG,I_BIT); /* Enable global interrupts */
@@ -212,13 +211,13 @@ void ExtInt_disable(ExtInt_sourceType_t a_interruptNum)
 	switch(a_interruptNum)
 	{
 	case EXT_INTERRUPT_0:
-		CLEAR_BIT(GICR,EX_INTERRUPT0_PIN); /* Enable INT0 interrupt */
+		CLEAR_BIT(GICR,INT0); /* Enable INT0 interrupt */
 		break;
 	case EXT_INTERRUPT_1:
-		CLEAR_BIT(GICR,EX_INTERRUPT1_PIN); /* Enable INT1 interrupt */
+		CLEAR_BIT(GICR,INT1); /* Enable INT1 interrupt */
 		break;
 	case EXT_INTERRUPT_2:
-		CLEAR_BIT(GICR,EX_INTERRUPT2_PIN); /* Enable INT2 interrupt */
+		CLEAR_BIT(GICR,INT2); /* Enable INT2 interrupt */
 		break;
 	}
 }
@@ -228,20 +227,20 @@ void ExtInt_disable(ExtInt_sourceType_t a_interruptNum)
 *************************************************************************************/
 void ExtInt_setCallBackInt0(void (*FuncPtr)(void))
 {
-	if(g_EX_INT0_CallBack_Ptr != NULL_PTR)
-		g_EX_INT0_CallBack_Ptr = FuncPtr;
+	if(FuncPtr != NULL_PTR)
+		g_ExtInt0_CallBack_Ptr = FuncPtr;
 }
 
 void ExtInt_setCallBackInt1(void (*FuncPtr)(void))
 {
-	if(g_EX_INT1_CallBack_Ptr != NULL_PTR)
-		g_EX_INT1_CallBack_Ptr = FuncPtr;
+	if(FuncPtr != NULL_PTR)
+		g_ExtInt1_CallBack_Ptr = FuncPtr;
 }
 
 void ExtInt_setCallBackInt2(void (*FuncPtr)(void))
 {
-	if(g_EX_INT2_CallBack_Ptr != NULL_PTR)
-		g_EX_INT2_CallBack_Ptr = FuncPtr;
+	if(FuncPtr != NULL_PTR)
+		g_ExtInt2_CallBack_Ptr = FuncPtr;
 }
 /************************************************************************************
 						ExtInt ISPs Functions
@@ -249,20 +248,20 @@ void ExtInt_setCallBackInt2(void (*FuncPtr)(void))
 /* INTERRUPT OF RESET_SWITCH */
 ISR(INT0_vect)
 {
-	if(g_EX_INT0_CallBack_Ptr != NULL_PTR)
-		(*g_EX_INT0_CallBack_Ptr)();
+	if(g_ExtInt0_CallBack_Ptr != NULL_PTR)
+		(*g_ExtInt0_CallBack_Ptr)();
 }
 
 /* INTERRUPT OF PAUSE_SWITCH */
 ISR(INT1_vect)
 {
-	if(g_EX_INT1_CallBack_Ptr != NULL_PTR)
-		(*g_EX_INT1_CallBack_Ptr)();
+	if(g_ExtInt1_CallBack_Ptr != NULL_PTR)
+		(*g_ExtInt1_CallBack_Ptr)();
 }
 
 /* INTERRUPT OF RESUME_SWITCH */
 ISR(INT2_vect)
 {
-	if(g_EX_INT2_CallBack_Ptr != NULL_PTR)
-		(*g_EX_INT2_CallBack_Ptr)();
+	if(g_ExtInt2_CallBack_Ptr != NULL_PTR)
+		(*g_ExtInt2_CallBack_Ptr)();
 }
