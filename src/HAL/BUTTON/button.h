@@ -13,11 +13,11 @@ File Name : button.h
 
 #include "../../HELPERS/Std_types.h"
 
-#define BUTTON_RESET_PORT_ID    3 /* PORTD */
-#define BUTTON_RESET_PIN_ID     2 /* PD2 */
-
 #define BUTTON_PAUSE_PORT_ID    3 /* PORTD */
-#define BUTTON_PAUSE_PIN_ID     3 /* PD3 */
+#define BUTTON_PAUSE_PIN_ID     2 /* PD2 */
+
+#define BUTTON_RESET_PORT_ID    3 /* PORTD */
+#define BUTTON_RESET_PIN_ID     3 /* PD3 */
 
 #define BUTTON_RESUME_PORT_ID   1 /* PORTB */
 #define BUTTON_RESUME_PIN_ID    2 /* PB2 */

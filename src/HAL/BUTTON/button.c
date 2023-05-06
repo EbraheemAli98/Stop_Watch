@@ -22,11 +22,11 @@ extern volatile uint8 g_hour2_counter; /* count the number of hours displayed on
 
 void Button_init(void)
 {
-    GPIO_setupPinDirection(BUTTON_RESET_PORT_ID,BUTTON_RESET_PIN_ID,PIN_INPUT);
     GPIO_setupPinDirection(BUTTON_PAUSE_PORT_ID,BUTTON_PAUSE_PIN_ID,PIN_INPUT);
+    GPIO_setupPinDirection(BUTTON_RESET_PORT_ID,BUTTON_RESET_PIN_ID,PIN_INPUT);
     GPIO_setupPinDirection(BUTTON_RESUME_PORT_ID,BUTTON_RESUME_PIN_ID,PIN_INPUT);
 
-    GPIO_writePin(BUTTON_RESET_PORT_ID,BUTTON_RESET_PIN_ID,LOGIC_HIGH);	  /* RESET_SW IS PULLUP */
+    GPIO_writePin(BUTTON_PAUSE_PORT_ID,BUTTON_PAUSE_PIN_ID,LOGIC_HIGH);	  /* PAUSE_SW IS PULLUP */
     GPIO_writePin(BUTTON_RESUME_PORT_ID,BUTTON_RESUME_PIN_ID,LOGIC_HIGH); /* RESUME_SW IS PULLUP */
 
 	ExtInt_setCallBackInt0(Button_pause);
