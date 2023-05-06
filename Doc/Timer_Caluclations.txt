@@ -1,0 +1,27 @@
+If we need to use Timer1 in CTC mode (mode no.4), We must put the output compare match value in register OCR1A.
+As we want the timer to call ISR each 1 second, we need to calculate the TOP value needed to put in the OCR1A 
+to give interrupt each 1 second.
+  
+# Timer1 Calculations:
+----------------------
+Fcpu = 1MHz ==> cpu resolution = 1/1MHz = 1us (for each tick)
+
+Time for reach OCR1A (Time of top value needed) = 1000 msec
+OCR1A time,t(OCR1A) = OCR1A_TOP_value * Timer resolution 
+
+OCR1A_TOP_value = ? 
+
+Timer Freq (Ft) = ? , (Timer resolution) = 1/Ft = ?
+
+#Let we use prescaler (N) = 1024:
+--------------------------------
+
+Ft = Fcpu / N = 1MHz/1024 = 976 Hz
+
+Timer resolution (Ttick) = 1/Ft = 1/976 = 1 msec
+
+t(OCR1A)  = OCR1A_TOP_value * Timer resolution
+1000 msec = OCR1A_TOP_value * 1 msec
+
+OCR1A_TOP_value = 1000
+
