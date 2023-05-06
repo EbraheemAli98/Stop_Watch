@@ -14,19 +14,26 @@ File Name : StopWatch_app.c
 #include "../HAL/BUTTON/button.h"
 #include "../MCAL/EXT_INTERRUPT/ex_interrupt.h"
 #include "../HAL/SEVEN_SEGMENT/seven_segment.h"
+#include <avr/io.h>
+#include <avr/interrupt.h>
 
+extern volatile uint8 sec1_counter;	/* count the number of seconds displayed on the 1st segment in the left*/
+extern volatile uint8 sec2_counter;	/* count the number of seconds displayed on the 2nd segment */
+extern volatile uint8 min1_counter;	/* count the number of minites displayed on the 3rd segment */
+extern volatile uint8 min2_counter;  /* count the number of minites displayed on the 4th segment */
+extern volatile uint8 hour1_counter; /* count the number of hours displayed on the 5th segment */
+extern volatile uint8 hour2_counter; /* count the number of hours displayed on the last segment in the right */
+extern volatile uint8 flag;
 
 void StopWatch_init(void)
 {
-	Timer1_init();
-	Timer1_setCallBack(SevenSegment_check);
+	Button_init();
+	SevenSegment_init();
 	ExtInt_init(&ExtIntConfigObj);
 	ExtInt_setCallBackInt0(StopWatch_reset);
 	ExtInt_setCallBackInt1(StopWatch_pause);
 	ExtInt_setCallBackInt2(StopWatch_resume);
-	Button_init();
-	SevenSegment_init();
-	Timer1_InterruptEnable();
+	SREG |= (1<<7);
 }
 
 void StopWatch_start(void)

@@ -12,11 +12,11 @@
 #define HOURS2 0x20	/* Right hours 7-segment */
 
 
-#define SEVEN_SEGMENT_DATA_REG     PORTC /* PORTC is the port displays the data on the segments and it is connected with its decoder */
-#define SEVEN_SEGMENT_DIR_REG      DDRC
+#define SEVEN_SEGMENT_DATA_REG     2 /* PORTC is the port displays the data on the segments and it is connected with its decoder */
+#define SEVEN_SEGMENT_DIR_REG      2
 
-#define SEVEN_SEGMENT_DATA_DISPLAY_REG PORTA  /* PORTA contains the pins that controls the display of the segments */
-#define SEVEN_SEGMENT_DIR_DISPLAY_REG  DDRA
+#define SEVEN_SEGMENT_DATA_DISPLAY_REG 0  /* PORTA contains the pins that controls the display of the segments */
+#define SEVEN_SEGMENT_DIR_DISPLAY_REG  0
 
 
 extern volatile uint8 sec1_counter;	/* count the number of seconds displayed on the 1st segment in the left*/
@@ -25,6 +25,7 @@ extern volatile uint8 min1_counter;	/* count the number of minites displayed on 
 extern volatile uint8 min2_counter;  /* count the number of minites displayed on the 4th segment */
 extern volatile uint8 hour1_counter; /* count the number of hours displayed on the 5th segment */
 extern volatile uint8 hour2_counter; /* count the number of hours displayed on the last segment in the right */
+extern volatile uint8 flag;
 
 /*********************************************************************************
  *                  Functions' Prototypes

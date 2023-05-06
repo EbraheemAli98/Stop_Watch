@@ -1,6 +1,6 @@
 #include "../../MCAL/GPIO/gpio.h"
+#include "../../MCAL/TIMER/timer.h"
 #include "seven_segment.h"
-#include <avr/io.h>
 #include <util/delay.h>
 
 volatile uint8 sec1_counter=0;	/* count the number of seconds displayed on the 1st segment in the left*/
@@ -9,6 +9,7 @@ volatile uint8 min1_counter=0;	/* count the number of minites displayed on the 3
 volatile uint8 min2_counter=0;  /* count the number of minites displayed on the 4th segment */
 volatile uint8 hour1_counter=0; /* count the number of hours displayed on the 5th segment */
 volatile uint8 hour2_counter=0; /* count the number of hours displayed on the last segment in the right */
+volatile uint8 flag=0;
 
 
 /*********************************************************************************
@@ -21,7 +22,7 @@ volatile uint8 hour2_counter=0; /* count the number of hours displayed on the la
  Parameters[out]: None
  Parameters[in/out]: None
  Return : void
- Descript)ion: Function to initialize the 7-segment.
+ Description: Function to initialize the 7-segment.
  --------------------------------------------------------------------------------------------------*/
 void SevenSegment_init(void)
 {
@@ -29,6 +30,10 @@ void SevenSegment_init(void)
 	GPIO_setupPortDirection(SEVEN_SEGMENT_DIR_REG,0x0F);
 	/* SET PA0-PA5 AS OUTPUT DISPLAY OF SEVEN_SEGMENT */
 	GPIO_setupPortDirection(SEVEN_SEGMENT_DIR_DISPLAY_REG,0x3F);
+
+	Timer1_init();
+	Timer1_setCallBack(SevenSegment_check);
+	Timer1_InterruptEnable();
 }
 /*-------------------------------------------------------------------------------------------------
  Function Name: SevenSegment_display
@@ -43,22 +48,22 @@ void SevenSegment_display(void)
 {
 	GPIO_writePort(SEVEN_SEGMENT_DATA_DISPLAY_REG,SEC1);    /* Set HIGH for SEC1 only */
 	GPIO_writePort(SEVEN_SEGMENT_DATA_REG,sec1_counter);	/* Display value of sec1_counter */
-	_delay_ms(2);
+	_delay_ms(4);
 	GPIO_writePort(SEVEN_SEGMENT_DATA_DISPLAY_REG,SEC2); /* Set HIGH for SEC2 only */
 	GPIO_writePort(SEVEN_SEGMENT_DATA_REG,sec2_counter);	/* Display value of sec2_counter */
-	_delay_ms(2);
+	_delay_ms(4);
 	GPIO_writePort(SEVEN_SEGMENT_DATA_DISPLAY_REG,MIN1); /* Set HIGH for MIN1 only */
 	GPIO_writePort(SEVEN_SEGMENT_DATA_REG,min1_counter);	/* Display value of min1_counter */
-	_delay_ms(2);
+	_delay_ms(4);
 	GPIO_writePort(SEVEN_SEGMENT_DATA_DISPLAY_REG,MIN2); /* Set HIGH for MIN2 only */
 	GPIO_writePort(SEVEN_SEGMENT_DATA_REG,min2_counter);	/* Display value of min2_counter */
-	_delay_ms(2);
+	_delay_ms(4);
 	GPIO_writePort(SEVEN_SEGMENT_DATA_DISPLAY_REG,HOURS1); /* Set HIGH for HOURS1 only */
 	GPIO_writePort(SEVEN_SEGMENT_DATA_REG,hour1_counter);	/* Display value of hour1_counter */
-	_delay_ms(2);
+	_delay_ms(4);
 	GPIO_writePort(SEVEN_SEGMENT_DATA_DISPLAY_REG,HOURS2); /* Set HIGH for HOURS2 only */
 	GPIO_writePort(SEVEN_SEGMENT_DATA_REG,hour2_counter);	/* Display value of hour2_counter */
-	_delay_ms(2);
+	_delay_ms(4);
 }
 
 /*-------------------------------------------------------------------------------------------------

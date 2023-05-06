@@ -18,7 +18,7 @@
  #include "timer.h"
 
 
- static volatile void (*g_Call_Back_Ptr)(void) = NULL_PTR;
+ static void (*g_Call_Back_Ptr)(void) = NULL_PTR;
 
  /*****************************************************************************************
   *              Timer Functions' Definitions
@@ -39,7 +39,7 @@
     TCNT1 = 0;
     OCR1A = TIMER1_VALUE;
     /*ENABLE CTC MODE, PRESCALER 1024 */
-    TCCR1B = TIEMR1_1024_PRESCALER | TIMER1_CTC_MODE;
+    TCCR1B = (1<<WGM12)|(1<<CS12)|(1<<CS10);
  }
  /*-------------------------------------------------------------------------------------------------
  Function Name: Timer1_DeInit
@@ -132,13 +132,13 @@
  --------------------------------------------------------------------------------------------------*/
  void Timer1_setCallBack(void (*FuncPtr)(void))
  {
-    if (g_Call_Back_Ptr != NULL_PTR)
+    if (FuncPtr != NULL_PTR)
     {
         g_Call_Back_Ptr = FuncPtr;
     }
  }
-
- ISR(TIMER1_COMP_vect)
+/***************************************************************************************************/
+ ISR(TIMER1_COMPA_vect)
  {
     if (g_Call_Back_Ptr != NULL_PTR)
     {

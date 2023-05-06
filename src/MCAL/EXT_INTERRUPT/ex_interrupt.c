@@ -33,11 +33,11 @@ const ExtInt_ConfigType ExtIntConfigObj =
 }};
 
 /*********************************************************************************
- *               Static Globale Variables Declaration
+ *               Static Global Variables Declaration
  ********************************************************************************/
-static volatile void(*g_EX_INT0_CallBack_Ptr)(void) = NULL_PTR;
-static volatile void(*g_EX_INT1_CallBack_Ptr)(void) = NULL_PTR;
-static volatile void(*g_EX_INT2_CallBack_Ptr)(void) = NULL_PTR;
+static volatile void (*g_EX_INT0_CallBack_Ptr)(void) = NULL_PTR;
+static volatile void (*g_EX_INT1_CallBack_Ptr)(void) = NULL_PTR;
+static volatile void (*g_EX_INT2_CallBack_Ptr)(void) = NULL_PTR;
 
 /*********************************************************************************
  *               Private Functions' Prototypes
@@ -153,10 +153,10 @@ static void ExtInt2_init(ExtInt_ConfigParam_t *InterruptConfig_Ptr)
 void ExtInt_init(const ExtInt_ConfigType * InterruptConfig_Ptr)
 {
 	uint8 IntNum;
-	for(IntNum=0; IntNum < NUM_OF_EXT_INT; ++IntNum)
+	/* Implement the function if only number of interrupt between 0-2 and number of trigger type 0-3 */
+	if(InterruptConfig_Ptr->ExtIntArray[IntNum].source_type <= 2 && InterruptConfig_Ptr->ExtIntArray[IntNum].trigger_type <= 3)
 	{
-		/* Implement the function if only number of interrupt between 0-2 and number of trigger type 0-3 */
-		if(InterruptConfig_Ptr->ExtIntArray[IntNum].source_type <= 2 && InterruptConfig_Ptr->ExtIntArray[IntNum].trigger_type <= 3)
+		for(IntNum=0; IntNum < NUM_OF_EXT_INT; ++IntNum)
 		{
 			switch(InterruptConfig_Ptr->ExtIntArray[IntNum].source_type)
 			{
@@ -256,13 +256,13 @@ ISR(INT0_vect)
 /* INTERRUPT OF PAUSE_SWITCH */
 ISR(INT1_vect)
 {
-	if(g_EX_INT0_CallBack_Ptr != NULL_PTR)
+	if(g_EX_INT1_CallBack_Ptr != NULL_PTR)
 		(*g_EX_INT1_CallBack_Ptr)();
 }
 
 /* INTERRUPT OF RESUME_SWITCH */
 ISR(INT2_vect)
 {
-	if(g_EX_INT0_CallBack_Ptr != NULL_PTR)
+	if(g_EX_INT2_CallBack_Ptr != NULL_PTR)
 		(*g_EX_INT2_CallBack_Ptr)();
 }
