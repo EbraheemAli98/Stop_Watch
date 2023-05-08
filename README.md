@@ -5,7 +5,7 @@
       > pause button: used to stop the stop-watch from counting and connects to the ATmega16 with a pull-up resistor.
       > resume button: used to restart the stop-watch after pausing it and connects to ATmega16 with a pull-up resistor.
   #### 7-segment display screen:
-      - Used to display the time in seconds, minutes and hours.
+      >Used to display the time in seconds, minutes and hours.
   #### Project Senario:
       - In the foreground/super-loop the 7-segment display screen will continue to display the time using Round-Robin method
         (this means it will display each segment alone for a small fraction of time (x) sequentially).
