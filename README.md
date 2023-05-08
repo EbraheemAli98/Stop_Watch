@@ -17,4 +17,4 @@
       - use an extra timer channel to implement the API task (7-segment display time task) by setting this timer to fire an interrupt 
         each spacefic fraction on time and build a call back function that manage this task.
 ### Video explains the project in details:
-  Link: https://drive.google.com/file/d/1nkU1p-iotGjHEJOgFTpBKsMZqi0eycjN/view?usp=sharing
+ $$ Link: https://drive.google.com/file/d/1nkU1p-iotGjHEJOgFTpBKsMZqi0eycjN/view?usp=sharing
