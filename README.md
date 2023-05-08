@@ -1,6 +1,6 @@
 # Stop_Watch
 ### Project Description:
-  #### 1) 3 push buttons :-
+  #### 1) Three push buttons :-
       - reset button: used to reset the stop-watch and connects to the Atmega16 with a pull-down resistor.
       - pause button: used to stop the stop-watch from counting and connects to the ATmega16 with a pull-up resistor.
       - resume button: used to restart the stop-watch after pausing it and connects to ATmega16 with a pull-up resistor.
