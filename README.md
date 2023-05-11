@@ -11,6 +11,6 @@
 >    - The time will continue to increase and the API that increases the timer value will be called back for Timer module each second when the Timer's ISR is triggered.
 >    - Each puch-button is attached to an external interrupt pin when the button is pressed its ISR will triggered causing a call back to its spacefic API to execute.
 #### Project Future Modifications:
-> use an extra timer channel to implement the API task (7-segment display time task) by setting this timer to fire an interrupt each spacefic fraction on time and build a call back function that manage this task.
+> Use an extra timer channel to implement the API task (7-segment display time task) by setting this timer to fire an interrupt each spacefic fraction on time and build a call back function that manage this task.
 #### Video explains the project in details:
 > *Link: https://drive.google.com/file/d/1nkU1p-iotGjHEJOgFTpBKsMZqi0eycjN/view?usp=sharing*
