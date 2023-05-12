@@ -1,5 +1,5 @@
 # Stop_Watch
-> __Hint :__ *The Project is based on AVR (ATmega16) microcontroller architecture.*
+> __Hint :__ *The project is based on AVR (ATmega16) microcontroller architecture.*
  
 #### Project Description:
 > 1) Functions of the three push buttons:
