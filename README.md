@@ -1,10 +1,12 @@
 # Stop_Watch
+> __Hint :__ The Project is based on AVR (ATmega16) microcontroller architecture.
+ 
 #### Project Description:
-> 1) Three push buttons:
+> 1) Functions of the three push buttons:
 >    - reset button: used to reset the stop-watch and connects to the Atmega16 with a pull-down resistor.
 >    - pause button: used to stop the stop-watch from counting and connects to the ATmega16 with a pull-up resistor.
 >    - resume button: used to restart the stop-watch after pausing it and connects to ATmega16 with a pull-up resistor.
-> 2) seven-segment display screen:
+> 2) seven-segment display screen function: 
 >    - Used to display the time in seconds, minutes and hours.
 > 3) Project Senario:
 >    - In the foreground/super-loop the 7-segment display screen will continue to display the time using Round-Robin method (this means it will display each segment alone for a small fraction of time (x) sequentially).
